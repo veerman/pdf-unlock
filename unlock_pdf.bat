@@ -1,17 +1,17 @@
 @echo off
 rem Windows Batch Script created by Steve Veerman
 
-set /p encrypted_pdf_path="PDF File (use full path eg. C:\Users\You\Desktop\locked.pdf): "
+set /p locked_pdf_path="PDF File (use full path eg. C:\Users\You\Desktop\locked.pdf): "
 echo.
-rem echo %encrypted_pdf_path%
+rem echo %locked_pdf_path%
 
-if not exist %encrypted_pdf_path% (
+if not exist %locked_pdf_path% (
 	echo PDF File not found. Please try again.
 	goto done
 )
 
-call set decrypted_pdf_path=%%encrypted_pdf_path:.pdf=.unencrypted.pdf%%
-echo Saving %decrypted_pdf_path%
+call set unlocked_pdf_path=%%locked_pdf_path:.pdf=.unlocked.pdf%%
+echo Saving %unlocked_pdf_path%
 
 set gs_exec="gswin*c.exe"
 
@@ -40,7 +40,7 @@ goto done
 
 :run_gs
 rem echo Working...
-"%gs_path%" -q -dNOPAUSE -dBATCH -sDEVICE=pdfwrite -sOutputFile="%decrypted_pdf_path%" -c .setpdfwrite -f "%encrypted_pdf_path%"
+"%gs_path%" -q -dNOPAUSE -dBATCH -sDEVICE=pdfwrite -sOutputFile=%unlocked_pdf_path% -c .setpdfwrite -f %locked_pdf_path%
 goto done
 
 :done
